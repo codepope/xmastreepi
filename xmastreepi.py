@@ -10,7 +10,8 @@ treemap={ 1:4, 7:5, 16:6, 22:7, 6:8 , 14:9, 8:10, 21:11, 15:12, 3:13, 19:14, 2:1
 
 starled=LED(2)
 starstate=False
-starcount=10
+starblink=5
+starcount=starblink
 
 leds=LEDBoard(*range(4,28), pwm=True)
 
@@ -18,7 +19,7 @@ def toggleStar():
     global starstate,starcount
     starcount-=1
     if starcount==0:
-        starcount=10
+        starcount=starblink
         starstate=not starstate
         if starstate:
             starled.on()
