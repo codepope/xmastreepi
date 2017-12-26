@@ -78,10 +78,8 @@ client.publish("treepi/"+hostid+"/local","ready")
 print("treepi/"+hostid+"/local")
 
 while True:
-    item=mqttq.get()
-    if item is None:
-        sleep(0.1)
-    else:
+    try:
+        item=mqttq.get(timeout=0.1)
         topic=item[0]
         payload=item[1]
         print(topic+" "+payload)
@@ -90,4 +88,8 @@ while True:
             client.publish("treepi/"+hostid+"/local","done:"+payload)
         else:
             client.publish("treepi/"+hostid+"/local","error:"+payload)
+    except queue.Empty:
+        toggleStar()
+
+
 
