@@ -52,7 +52,16 @@ def goVerticalSweep():
         sleep(0.1)
         leds.off(toBoard(i))
         toggleStar()
-      
+
+def goHorizontalSweep():
+    for i in treehorizontal:
+        sleep(0.1)
+        leds.on(toBoard(i))
+        toggleStar()
+    for i in treehorizontal:
+        sleep(0.1)
+        leds.off(toBoard(i))
+        toggleStar()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -86,6 +95,9 @@ while True:
         if payload=="go:vsweep":
             goVerticalSweep()
             client.publish("treepi/"+hostid+"/local","done:"+payload)
+        elif payload=="go:hsweep":
+            goHorizontalSweep()
+            client.publish("treepi/"+hostid+"/local","done:"+payload)     
         else:
             client.publish("treepi/"+hostid+"/local","error:"+payload)
     except queue.Empty:
